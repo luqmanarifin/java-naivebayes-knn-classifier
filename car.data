@@ -1,3 +1,14 @@
+@relation weather.symbolic
+
+@attribute buying {vhigh, high, med, low}
+@attribute maint {vhigh, high, med, low}
+@attribute doors {2, 3, 4, 5more}
+@attribute persons {2, 4, more}
+@attribute lug_boot {small, med, big}
+@attribute safety {low, med, high}
+@attribute values {unacc, acc, good, vgood}
+
+@data
 vhigh,vhigh,2,2,small,low,unacc
 vhigh,vhigh,2,2,small,med,unacc
 vhigh,vhigh,2,2,small,high,unacc
