@@ -254,6 +254,8 @@ public class Main {
     read_header("weather.nominal.arff");
     String class_attributes = "play";
     System.out.println("TEN FOLD TRAINING");
+    ArrayList<ArrayList<String>> instances2 = prepare_naive_bayes(class_attributes);
+    entry_instances(instances2, class_attributes);
     //ArrayList<String> ins : instances
     int[][] set1 = {{0,0,1,1,1,1,1,1,1,1,1,1,1,1},
                     {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
@@ -269,10 +271,9 @@ public class Main {
 
 
     for(int i=0;i<10;i++) {
-      ArrayList<ArrayList<String>> instances2 = prepare_naive_bayes(class_attributes);
-      entry_instances(instances2, class_attributes);
+      System.out.println(instances2.toString());
       System.out.println("Fold ke-"+i);
-      System.out.println(instances2.get(1));
+      System.out.println(set1[i].length);
       for (int k=0;k<set1[i].length;k++){
         if (set1[i][k] == 0){
           System.out.println("I: "+i);
