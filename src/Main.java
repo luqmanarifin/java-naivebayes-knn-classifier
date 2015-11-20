@@ -271,17 +271,16 @@ public class Main {
 
 
     for(int i=0;i<10;i++) {
-      System.out.println(instances2.toString());
-      System.out.println("Fold ke-"+i);
+      System.out.println("Fold ke-"+(i+1));
       System.out.println(set1[i].length);
-      for (int k=0;k<set1[i].length;k++){
+      for (int k=0;k<set1.length;k++){
         if (set1[i][k] == 0){
           System.out.println("I: "+i);
           System.out.println("K: "+k);
           ArrayList<String> ins = instances2.get(k);
           System.out.println("============================");
           System.out.println("Instance:" + ins.toString());
-          do_naive_bayes(class_attributes, ins, set1[k]);
+          do_naive_bayes(class_attributes, ins, set1[0]);
           System.out.println("tp:"+tp);
           System.out.println("tn:"+tn);
           System.out.println("fp:"+fp);
@@ -298,6 +297,10 @@ public class Main {
     ten(); //ten fold
 
     /* FULLSET TRAINING
+    tp = 0;
+    tn = 0;
+    fp = 0;
+    fn = 0;
     init();
     String class_attributes = "play";
     read_header("weather.nominal.arff");
@@ -331,12 +334,6 @@ public class Main {
     System.out.println("Precision: "+ precision);
     double recall = (tp) / (tp+fn);
     System.out.println("Recall: "+ recall);
-
-
-    tp = 0;
-    tn = 0;
-    fp = 0;
-    fn = 0;
 */
 
   }
