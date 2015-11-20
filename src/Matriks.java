@@ -131,9 +131,11 @@ public class Matriks
     public static Matriks createMatrixFromFile(String filename, int nAtr, int nInstance) throws Exception
     {
     	String[][] matrix = null;
-
-        InputStream stream = ClassLoader.getSystemResourceAsStream(filename);
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(stream));
+		System.out.println("Working Directory = " +
+				System.getProperty("user.dir"));
+		System.out.println(filename);
+		InputStream stream = ClassLoader.getSystemResourceAsStream(filename);
+		BufferedReader buffer = new BufferedReader(new InputStreamReader(stream));
 
         String line;
 

@@ -140,6 +140,33 @@ public class Main {
     }
   }
 
+  public static void entry(ArrayList<ArrayList<String>> instances, String atr, int[] trainingset) {
+    int at = map_names.get(atr);
+    for(int i = 0; i < values.get(at).size(); i++) {
+      cl.add(new ArrayList<ArrayList<Integer>>());
+      for(int j = 0; j < names.size(); j++) {
+        cl.get(i).add(new ArrayList<Integer>());
+        for(int k = 0; k < values.get(j).size(); k++) {
+          cl.get(i).get(j).add(0);
+        }
+      }
+      sums.add(0);
+    }
+
+    for(int i = 0; i < instances.size(); i++) {
+      if (trainingset[i] == 1) {
+        String clazz = instances.get(i).get(at);
+        int cval = map_values.get(at).get(clazz);
+        for (int j = 0; j < names.size(); j++) {
+          if (j == at) continue;
+          int ival = map_values.get(j).get(instances.get(i).get(j));
+          cl.get(cval).get(j).set(ival, cl.get(cval).get(j).get(ival) + 1);
+        }
+        sums.set(cval, sums.get(cval) + 1);
+      }
+    }
+  }
+
   public static void debug_bayes(String atr) {
     int at = map_names.get(atr);
     int tot = 0;
@@ -167,7 +194,7 @@ public class Main {
    *            misal akan dicari '?' dari instance (3, ?, sunny, yes, no)
    *            maka array ins harus berisi = {"3", "?", "sunny", "yes", "no"}
    */
-  public static void do_naive_bayes(String atr, ArrayList<String> ins) {
+  public static void do_naive_bayes(String atr, ArrayList<String> ins, int[] trainingset) {
     int at = map_names.get(atr);
     double[] prob = new double[sums.size()];
     int tot = 0;
@@ -222,28 +249,76 @@ public class Main {
     System.out.println();
   }
 
+  public static void ten(){
+    //Tenfold training
+    read_header("weather.nominal.arff");
+    String class_attributes = "play";
+    System.out.println("TEN FOLD TRAINING");
+    //ArrayList<String> ins : instances
+    int[][] set1 = {{0,0,1,1,1,1,1,1,1,1,1,1,1,1},
+                    {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
+                    {1,1,1,1,0,0,1,1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,0,0,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,0,1,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,0,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,0,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,0,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,0}
+    };
 
-  public static void doTenXTraining(){
 
+    for(int i=0;i<10;i++) {
+      ArrayList<ArrayList<String>> instances2 = prepare_naive_bayes(class_attributes);
+      entry_instances(instances2, class_attributes);
+      System.out.println("Fold ke-"+i);
+      System.out.println(instances2.get(1));
+      for (int k=0;k<set1[i].length;k++){
+        if (set1[i][k] == 0){
+          System.out.println("I: "+i);
+          System.out.println("K: "+k);
+          ArrayList<String> ins = instances2.get(k);
+          System.out.println("============================");
+          System.out.println("Instance:" + ins.toString());
+          do_naive_bayes(class_attributes, ins, set1[k]);
+          System.out.println("tp:"+tp);
+          System.out.println("tn:"+tn);
+          System.out.println("fp:"+fp);
+          System.out.println("fn:"+fn);
+        }
+      }
+
+    }
   }
 
   public static void main(String[] args) {
     init();
-    read_header("weather.nominal.arff");
     String class_attributes = "play";
+    ten(); //ten fold
+
+    /* FULLSET TRAINING
+    init();
+    String class_attributes = "play";
+    read_header("weather.nominal.arff");
     ArrayList<ArrayList<String>> instances = prepare_naive_bayes(class_attributes);
     entry_instances(instances, class_attributes);
-    //debug_bayes(class_attributes);
+    System.out.println(instances.toString());
+
+//    debug_bayes(class_attributes);
 //    String[] s = {"sunny", "mild", "normal", "TRUE"};
 //    ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
 //    do_naive_bayes(class_attributes, a);
 
-    //Fullset training
+
+    int[] set = new int[instances.size()];
+    for (int j=0;j<set.length;j++){
+      set[j]=1;
+    }
     System.out.println("FULLSET TRAINING");
     for(ArrayList<String> ins : instances) {
       System.out.println("============================");
       System.out.println("Instance:" + ins.toString());
-      do_naive_bayes(class_attributes, ins);
+      do_naive_bayes(class_attributes, ins,set);
       System.out.println("tp:"+tp);
       System.out.println("tn:"+tn);
       System.out.println("fp:"+fp);
@@ -261,16 +336,7 @@ public class Main {
     tn = 0;
     fp = 0;
     fn = 0;
-    //Tenfold training
-//    System.out.println("TEN FOLD TRAINING");
-//    for(ArrayList<String> ins : instances) {
-//      System.out.println("============================");
-//      System.out.println("Instance:" + ins.toString());
-//      do_naive_bayes(class_attributes, ins);
-//      System.out.println("tp:"+tp);
-//      System.out.println("tn:"+tn);
-//      System.out.println("fp:"+fp);
-//      System.out.println("fn:"+fn);
-//    }
+*/
+
   }
 }
