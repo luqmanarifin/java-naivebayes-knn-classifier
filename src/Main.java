@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 public class Main {
   static Instance model;
   static String name_relation;
+  static double tp=0,tn=0,fp=0,fn=0;
 
   // [atribute]
   static ArrayList<String> names;
@@ -197,8 +198,33 @@ public class Main {
         p = i;
       }
     }
+//    System.out.println(values.get(at).get(p));
+//    System.out.println(ins.get(at));
+    if (values.get(at).get(p).equals(ins.get(at))){
+
+      if (ins.get(at).equals("yes")){
+        tp++;
+      }
+      else if (ins.get(at).equals("no")){
+        tn++;
+      }
+    }
+    else {
+      if (ins.get(at).equals("yes")){
+        fn++;
+      }
+      else if (ins.get(at).equals("no")){
+        fp++;
+      }
+    }
+
     System.out.println("Dipilih kelas " + values.get(at).get(p) + " dengan peluang " + (best / tot));
     System.out.println();
+  }
+
+
+  public static void doTenXTraining(){
+
   }
 
   public static void main(String[] args) {
@@ -208,14 +234,43 @@ public class Main {
     ArrayList<ArrayList<String>> instances = prepare_naive_bayes(class_attributes);
     entry_instances(instances, class_attributes);
     //debug_bayes(class_attributes);
+//    String[] s = {"sunny", "mild", "normal", "TRUE"};
+//    ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
+//    do_naive_bayes(class_attributes, a);
 
-    String[] s = {"sunny", "mild", "normal", "TRUE"};
-    ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
-    do_naive_bayes(class_attributes, a);
-    /*
+    //Fullset training
+    System.out.println("FULLSET TRAINING");
     for(ArrayList<String> ins : instances) {
+      System.out.println("============================");
+      System.out.println("Instance:" + ins.toString());
       do_naive_bayes(class_attributes, ins);
+      System.out.println("tp:"+tp);
+      System.out.println("tn:"+tn);
+      System.out.println("fp:"+fp);
+      System.out.println("fn:"+fn);
     }
-    */
+    double accuracy = (tp + tn) / (tp+tn+fp+fn);
+    System.out.println("Accuracy: "+ accuracy);
+    double precision = (tp) / (tp+fp);
+    System.out.println("Precision: "+ precision);
+    double recall = (tp) / (tp+fn);
+    System.out.println("Recall: "+ recall);
+
+
+    tp = 0;
+    tn = 0;
+    fp = 0;
+    fn = 0;
+    //Tenfold training
+//    System.out.println("TEN FOLD TRAINING");
+//    for(ArrayList<String> ins : instances) {
+//      System.out.println("============================");
+//      System.out.println("Instance:" + ins.toString());
+//      do_naive_bayes(class_attributes, ins);
+//      System.out.println("tp:"+tp);
+//      System.out.println("tn:"+tn);
+//      System.out.println("fp:"+fp);
+//      System.out.println("fn:"+fn);
+//    }
   }
 }
