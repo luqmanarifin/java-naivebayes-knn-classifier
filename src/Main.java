@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class Main {
   static Instance model;
   static String name_relation;
+  static double tp=0,tn=0,fp=0,fn=0;
 
   // [atribute]
   static ArrayList<String> names;
@@ -138,6 +139,33 @@ public class Main {
     }
   }
 
+  public static void entry(ArrayList<ArrayList<String>> instances, String atr, int[] trainingset) {
+    int at = map_names.get(atr);
+    for(int i = 0; i < values.get(at).size(); i++) {
+      cl.add(new ArrayList<ArrayList<Integer>>());
+      for(int j = 0; j < names.size(); j++) {
+        cl.get(i).add(new ArrayList<Integer>());
+        for(int k = 0; k < values.get(j).size(); k++) {
+          cl.get(i).get(j).add(0);
+        }
+      }
+      sums.add(0);
+    }
+
+    for(int i = 0; i < instances.size(); i++) {
+      if (trainingset[i] == 1) {
+        String clazz = instances.get(i).get(at);
+        int cval = map_values.get(at).get(clazz);
+        for (int j = 0; j < names.size(); j++) {
+          if (j == at) continue;
+          int ival = map_values.get(j).get(instances.get(i).get(j));
+          cl.get(cval).get(j).set(ival, cl.get(cval).get(j).get(ival) + 1);
+        }
+        sums.set(cval, sums.get(cval) + 1);
+      }
+    }
+  }
+
   public static void debug_bayes(String atr) {
     int at = map_names.get(atr);
     int tot = 0;
@@ -165,7 +193,7 @@ public class Main {
    *            misal akan dicari '?' dari instance (3, ?, sunny, yes, no)
    *            maka array ins harus berisi = {"3", "?", "sunny", "yes", "no"}
    */
-  public static void do_naive_bayes(String atr, ArrayList<String> ins) {
+  public static void do_naive_bayes(String atr, ArrayList<String> ins, int[] trainingset) {
     int at = map_names.get(atr);
     double[] prob = new double[sums.size()];
     int tot = 0;
@@ -196,26 +224,132 @@ public class Main {
         p = i;
       }
     }
+<<<<<<< HEAD
     System.out.println();
+=======
+//    System.out.println(values.get(at).get(p));
+//    System.out.println(ins.get(at));
+    if (values.get(at).get(p).equals(ins.get(at))){
+
+      if (ins.get(at).equals("yes")){
+        tp++;
+      }
+      else if (ins.get(at).equals("no")){
+        tn++;
+      }
+    }
+    else {
+      if (ins.get(at).equals("yes")){
+        fn++;
+      }
+      else if (ins.get(at).equals("no")){
+        fp++;
+      }
+    }
+
+>>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
     System.out.println("Dipilih kelas " + values.get(at).get(p) + " dengan peluang " + (best / tot));
     System.out.println();
   }
 
+  public static void ten(){
+    //Tenfold training
+    read_header("weather.nominal.arff");
+    String class_attributes = "play";
+    System.out.println("TEN FOLD TRAINING");
+    ArrayList<ArrayList<String>> instances2 = prepare_naive_bayes(class_attributes);
+    entry_instances(instances2, class_attributes);
+    //ArrayList<String> ins : instances
+    int[][] set1 = {{0,0,1,1,1,1,1,1,1,1,1,1,1,1},
+                    {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
+                    {1,1,1,1,0,0,1,1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,0,0,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,0,1,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,0,1,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,0,1,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,0,1,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,0}
+    };
+
+
+    for(int i=0;i<10;i++) {
+      System.out.println("Fold ke-"+(i+1));
+      System.out.println(set1[i].length);
+      for (int k=0;k<set1.length;k++){
+        if (set1[i][k] == 0){
+          System.out.println("I: "+i);
+          System.out.println("K: "+k);
+          ArrayList<String> ins = instances2.get(k);
+          System.out.println("============================");
+          System.out.println("Instance:" + ins.toString());
+          do_naive_bayes(class_attributes, ins, set1[0]);
+          System.out.println("tp:"+tp);
+          System.out.println("tn:"+tn);
+          System.out.println("fp:"+fp);
+          System.out.println("fn:"+fn);
+        }
+      }
+
+    }
+  }
+
   public static void main(String[] args) {
     init();
+<<<<<<< HEAD
     read_header("car.data");
     String class_attributes = "values";
+=======
+    String class_attributes = "play";
+    ten(); //ten fold
+
+    /* FULLSET TRAINING
+    tp = 0;
+    tn = 0;
+    fp = 0;
+    fn = 0;
+    init();
+    String class_attributes = "play";
+    read_header("weather.nominal.arff");
+>>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
     ArrayList<ArrayList<String>> instances = prepare_naive_bayes(class_attributes);
     entry_instances(instances, class_attributes);
-    //debug_bayes(class_attributes);
+    System.out.println(instances.toString());
 
+//    debug_bayes(class_attributes);
+//    String[] s = {"sunny", "mild", "normal", "TRUE"};
+//    ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
+//    do_naive_bayes(class_attributes, a);
+
+
+<<<<<<< HEAD
     String[] s = {"med","vhigh","3","4","big","med","acc"};
     ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
     do_naive_bayes(class_attributes, a);
     /*
-    for(ArrayList<String> ins : instances) {
-      do_naive_bayes(class_attributes, ins);
+=======
+    int[] set = new int[instances.size()];
+    for (int j=0;j<set.length;j++){
+      set[j]=1;
     }
-    */
+    System.out.println("FULLSET TRAINING");
+>>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
+    for(ArrayList<String> ins : instances) {
+      System.out.println("============================");
+      System.out.println("Instance:" + ins.toString());
+      do_naive_bayes(class_attributes, ins,set);
+      System.out.println("tp:"+tp);
+      System.out.println("tn:"+tn);
+      System.out.println("fp:"+fp);
+      System.out.println("fn:"+fn);
+    }
+    double accuracy = (tp + tn) / (tp+tn+fp+fn);
+    System.out.println("Accuracy: "+ accuracy);
+    double precision = (tp) / (tp+fp);
+    System.out.println("Precision: "+ precision);
+    double recall = (tp) / (tp+fn);
+    System.out.println("Recall: "+ recall);
+*/
+
   }
 }
