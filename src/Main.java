@@ -5,7 +5,6 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -197,19 +196,20 @@ public class Main {
         p = i;
       }
     }
+    System.out.println();
     System.out.println("Dipilih kelas " + values.get(at).get(p) + " dengan peluang " + (best / tot));
     System.out.println();
   }
 
   public static void main(String[] args) {
     init();
-    read_header("weather.nominal.arff");
-    String class_attributes = "play";
+    read_header("car.data");
+    String class_attributes = "values";
     ArrayList<ArrayList<String>> instances = prepare_naive_bayes(class_attributes);
     entry_instances(instances, class_attributes);
     //debug_bayes(class_attributes);
 
-    String[] s = {"sunny", "mild", "normal", "TRUE"};
+    String[] s = {"med","vhigh","3","4","big","med","acc"};
     ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
     do_naive_bayes(class_attributes, a);
     /*
