@@ -1,11 +1,14 @@
-/**
- * Main.java
+package console; /**
+ * console.Main.java
  */
+
+import solver.Instance;
+import solver.KnnSolver;
+import solver.Matriks;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -277,7 +280,7 @@ public class Main {
     System.out.println("\nFULLSET TRAINING");
     for(ArrayList<String> ins : instances) {
       System.out.println("============================");
-      System.out.println("Instance:" + ins.toString());
+      System.out.println("solver.Instance:" + ins.toString());
       do_naive_bayes(class_attributes, ins,set);
 //      System.out.println("tp:"+tp);
 //      System.out.println("tn:"+tn);
@@ -328,7 +331,7 @@ public class Main {
         if (set1[i][k] == 0){
           //System.out.println("K: "+k);
           ArrayList<String> ins = instances2.get(k);
-          System.out.println("Instance:" + ins.toString());
+          System.out.println("solver.Instance:" + ins.toString());
           do_naive_bayes(class_attributes, ins, set1[0]);
 
         }
@@ -362,7 +365,80 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    ten(); //ten fold
-    doFullTrainingSet();
+
+
+    Matriks m = new Matriks();
+    int baris = 0;
+    int kolom = 0;
+    int pilihan = 0;
+
+    System.out.println("K-NN Classifier");
+    System.out.println("1. 10-fold cross validation");
+    System.out.println("2. Full training");
+    System.out.println("Naive Bayes Classifier");
+    System.out.println("3. 10-fold cross validation");
+    System.out.println("4. Full training");
+    System.out.println("Masukkan pilihan: ");
+    Scanner scan = new Scanner(System.in);
+    pilihan = scan.nextInt();
+
+    if (pilihan == 1) { //KNN ten fold cross validation
+      String[][] Dataset = new String[14][5];
+      Dataset[0][0] = "sunny"; Dataset[0][1] = "hot"; Dataset[0][2] = "high"; Dataset[0][3] = "false"; Dataset[0][4] = "no";
+      Dataset[1][0] = "sunny"; Dataset[1][1] = "hot"; Dataset[1][2] = "high"; Dataset[1][3] = "true"; Dataset[1][4] = "no";
+      Dataset[2][0] = "overcast"; Dataset[2][1] = "hot"; Dataset[2][2] = "high"; Dataset[2][3] = "false"; Dataset[2][4] = "yes";
+      Dataset[3][0] = "rainy"; Dataset[3][1] = "mild"; Dataset[3][2] = "high"; Dataset[3][3] = "false"; Dataset[3][4] = "yes";
+      Dataset[4][0] = "rainy"; Dataset[4][1] = "cool"; Dataset[4][2] = "normal"; Dataset[4][3] = "false"; Dataset[4][4] = "yes";
+      Dataset[5][0] = "rainy"; Dataset[5][1] = "cool"; Dataset[5][2] = "normal"; Dataset[5][3] = "true"; Dataset[5][4] = "no";
+      Dataset[6][0] = "overcast"; Dataset[6][1] = "cool"; Dataset[6][2] = "normal"; Dataset[6][3] = "true"; Dataset[6][4] = "yes";
+      Dataset[7][0] = "sunny"; Dataset[7][1] = "mild"; Dataset[7][2] = "high"; Dataset[7][3] = "false"; Dataset[7][4] = "no";
+      Dataset[8][0] = "sunny"; Dataset[8][1] = "cool"; Dataset[8][2] = "normal"; Dataset[8][3] = "false"; Dataset[8][4] = "yes";
+      Dataset[9][0] = "rainy"; Dataset[9][1] = "mild"; Dataset[9][2] = "normal"; Dataset[9][3] = "false"; Dataset[9][4] = "yes";
+      Dataset[10][0] = "sunny"; Dataset[10][1] = "mild"; Dataset[10][2] = "normal"; Dataset[10][3] = "true"; Dataset[10][4] = "yes";
+      Dataset[11][0] = "overcast"; Dataset[11][1] = "mild"; Dataset[11][2] = "high"; Dataset[11][3] = "true"; Dataset[11][4] = "yes";
+      Dataset[12][0] = "overcast"; Dataset[12][1] = "hot"; Dataset[12][2] = "normal"; Dataset[12][3] = "false"; Dataset[12][4] = "yes";
+      Dataset[13][0] = "rainy"; Dataset[13][1] = "mild"; Dataset[13][2] = "high"; Dataset[13][3] = "true"; Dataset[13][4] = "no";
+      KnnSolver KnnS = new KnnSolver(Dataset, 14, 5);
+      for (int i = 0; i < 14; i++) {
+        for (int j = 0; j < 5; j++) {
+          System.out.print(Dataset[i][j] + " ");
+        }
+        System.out.println();
+      }
+      System.out.println("accuration: " + KnnS.solveCrossFold(1,4));
+    } else if (pilihan == 2){ //KNN Full Training
+      System.out.println("Masukkan baris: ");
+      Scanner scan2 = new Scanner(System.in);
+      baris = scan2.nextInt();
+
+      System.out.println("Masukkan kolom: ");
+      Scanner scan3 = new Scanner(System.in);
+      kolom = scan3.nextInt();
+
+      try {
+        m = m.createMatrixFromFile("weather.nominal.arff",baris,kolom);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      //int baris = m.getJumlahInstance();
+      //int kolom = m.getJumlahAtribut();
+      String[][] datas = m.getMatriks();
+      for (int i = 0; i < baris; i++) {
+        for (int j = 0; j < kolom; j++) {
+          System.out.print(datas[i][j] + " ");
+        }
+        System.out.println();
+      }
+
+      KnnSolver KnnS = new KnnSolver(datas, baris, kolom);
+      System.out.println("accuration: " + KnnS.solveFullSet(1,4));
+    }
+    else if (pilihan == 3){ // Naive Bayes 10 Fold Cross Validation
+      ten();
+    }
+    else if (pilihan == 4){ // Naive Bayes Full Training Set
+      doFullTrainingSet();
+    }
   }
 }
+

@@ -1,4 +1,4 @@
-/*
+package solver;/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,17 +9,10 @@
  * @author ryanyonata
  */
 
-import java.io.File;
-import java.util.Scanner;
-import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.lang.String;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Matriks 
 {
@@ -69,6 +62,11 @@ public class Matriks
 		return this.mat;
 	}
 
+	public String getElmt(int i, int j)
+	{
+		return this.mat[i][j];
+	}
+
 	// Setter
 	public void setJumlahAtribut(int atr)
 	{
@@ -114,8 +112,7 @@ public class Matriks
         return nAtr;
     }
 
-    public static int getJumlahInstancedarifile(String filename) throws Exception
-    {
+    public static int getJumlahInstancedarifile(String filename) throws Exception{
     	InputStream stream = ClassLoader.getSystemResourceAsStream(filename);
         BufferedReader buffer = new BufferedReader(new InputStreamReader(stream));
 
@@ -128,7 +125,7 @@ public class Matriks
         return nInstance;
     }
 
-    public static Matriks createMatrixFromFile(String filename, int nAtr, int nInstance) throws Exception
+    public static Matriks createMatrixFromFile(String filename, int nInstance, int nAtr) throws Exception
     {
     	String[][] matrix = null;
 		System.out.println("Working Directory = " +
@@ -142,18 +139,19 @@ public class Matriks
         int j = 0;
 
         while ((line = buffer.readLine()) != null) {
-        	String[] vals = line.trim().split(",\\s*");
-            if (matrix == null) {
-                matrix = new String[nInstance][nAtr];
-            }
-            //matrix = new String[nInstance][nAtr];
+    		String[] vals = line.trim().split(",\\s*");
+    		nAtr = vals.length;
+       		if (matrix == null) {
+           		matrix = new String[nInstance][nAtr];
+        	}
+        	//matrix = new String[nInstance][nAtr];
 
-            for (int col = 0; col < nAtr; col++) {
-                matrix[j][col] = vals[col];
-            }
-            j++;
-     
+        	for (int col = 0; col < nAtr; col++) {
+            	matrix[j][col] = vals[col];
+        	}
+        	j++;
         }
+    
         Matriks matriksoriginal = new Matriks();
         matriksoriginal.setJumlahAtribut(nAtr);
         matriksoriginal.setJumlahInstance(nInstance);
@@ -163,19 +161,4 @@ public class Matriks
         System.out.println("jumlah instance: " + matriksoriginal.getJumlahInstance());
         return matriksoriginal;
     }
-
-    /*public static void main (String[] args)
-    {
-    	String filename = "test.txt";
-
-    	Matriks m = new Matriks();
-
-    	try
-    	{
-            m = m.createMatrixFromFile(filename);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
 }
