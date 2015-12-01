@@ -90,6 +90,7 @@ public class Main {
     }
 
   }
+
   public static ArrayList<ArrayList<String>> prepare_naive_bayes(String atr) {
     ArrayList<ArrayList<String>> instances = new ArrayList<ArrayList<String>>();
     // [kelas][atribut][value]
@@ -224,9 +225,6 @@ public class Main {
         p = i;
       }
     }
-<<<<<<< HEAD
-    System.out.println();
-=======
 //    System.out.println(values.get(at).get(p));
 //    System.out.println(ins.get(at));
     if (values.get(at).get(p).equals(ins.get(at))){
@@ -239,15 +237,12 @@ public class Main {
       }
     }
     else {
-      if (ins.get(at).equals("yes")){
+      if (ins.get(at).equals("yes")) {
         fn++;
-      }
-      else if (ins.get(at).equals("no")){
+      } else if (ins.get(at).equals("no")) {
         fp++;
       }
     }
-
->>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
     System.out.println("Dipilih kelas " + values.get(at).get(p) + " dengan peluang " + (best / tot));
     System.out.println();
   }
@@ -296,10 +291,6 @@ public class Main {
 
   public static void main(String[] args) {
     init();
-<<<<<<< HEAD
-    read_header("car.data");
-    String class_attributes = "values";
-=======
     String class_attributes = "play";
     ten(); //ten fold
 
@@ -311,7 +302,6 @@ public class Main {
     init();
     String class_attributes = "play";
     read_header("weather.nominal.arff");
->>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
     ArrayList<ArrayList<String>> instances = prepare_naive_bayes(class_attributes);
     entry_instances(instances, class_attributes);
     System.out.println(instances.toString());
@@ -322,18 +312,11 @@ public class Main {
 //    do_naive_bayes(class_attributes, a);
 
 
-<<<<<<< HEAD
-    String[] s = {"med","vhigh","3","4","big","med","acc"};
-    ArrayList<String> a = new ArrayList<String> (Arrays.asList(s));
-    do_naive_bayes(class_attributes, a);
-    /*
-=======
     int[] set = new int[instances.size()];
     for (int j=0;j<set.length;j++){
       set[j]=1;
     }
     System.out.println("FULLSET TRAINING");
->>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
     for(ArrayList<String> ins : instances) {
       System.out.println("============================");
       System.out.println("Instance:" + ins.toString());
