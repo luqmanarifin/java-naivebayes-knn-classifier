@@ -1,12 +1,9 @@
-import solver.Instance;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +27,6 @@ public class GUIApp {
     private JFileChooser fileChooser;
 
     // Attributes
-    private Instance model;
     private String name_relation;
     private double tp=0,tn=0,fp=0,fn=0;
     private double accuracy_total=0,precision_total=0,recall_total=0;
@@ -57,7 +53,6 @@ public class GUIApp {
         // Komponen Swing
         fileChooser = new JFileChooser();
         open.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 loadData();
             }
@@ -199,6 +194,8 @@ public class GUIApp {
 
     public void entry_instances(ArrayList<ArrayList<String>> instances, String atr) {
         int at = map_names.get(atr);
+        sums = new ArrayList<>();
+        cl = new ArrayList<>();
         for(int i = 0; i < values.get(at).size(); i++) {
             cl.add(new ArrayList<ArrayList<Integer>>());
             for(int j = 0; j < names.size(); j++) {
@@ -340,6 +337,7 @@ public class GUIApp {
         //TEN FOLD CROSS VALIDATION TRAINING
         System.out.println("\nTEN FOLD CROSS VALIDATION TRAINING");
         // variables
+        //Ten Fold training set for weather.nominal.arff
         //Ten Fold training set for weather.nominal.arff
         int[][] set1 = {{0,0,1,1,1,1,1,1,1,1,1,1,1,1},
                 {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
