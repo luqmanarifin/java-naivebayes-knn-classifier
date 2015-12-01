@@ -1,4 +1,4 @@
-/**
+package console; /**
  * Main.java
  */
 
@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import solver.*;
 
 public class Main {
   static Instance model;
@@ -225,6 +226,12 @@ public class Main {
         p = i;
       }
     }
+<<<<<<< HEAD:src/Main.java
+=======
+    //<<<<<<< HEAD
+    System.out.println();
+    //=======
+>>>>>>> 784e957732029087fe023a81ff94b6621870f3d4:src/console/Main.java
 //    System.out.println(values.get(at).get(p));
 //    System.out.println(ins.get(at));
     if (values.get(at).get(p).equals(ins.get(at))){
@@ -243,6 +250,11 @@ public class Main {
         fp++;
       }
     }
+<<<<<<< HEAD:src/Main.java
+=======
+
+    //>>>>>>> 9863b50ff81c4e3ed4e0a22516d6a7d57aafa68e
+>>>>>>> 784e957732029087fe023a81ff94b6621870f3d4:src/console/Main.java
     System.out.println("Dipilih kelas " + values.get(at).get(p) + " dengan peluang " + (best / tot));
     System.out.println();
   }
@@ -256,15 +268,15 @@ public class Main {
     entry_instances(instances2, class_attributes);
     //ArrayList<String> ins : instances
     int[][] set1 = {{0,0,1,1,1,1,1,1,1,1,1,1,1,1},
-                    {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
-                    {1,1,1,1,0,0,1,1,1,1,1,1,1,1},
-                    {1,1,1,1,1,1,0,0,1,1,1,1,1,1},
-                    {1,1,1,1,1,1,1,1,0,1,1,1,1,1},
-                    {1,1,1,1,1,1,1,1,1,0,1,1,1,1},
-                    {1,1,1,1,1,1,1,1,1,1,0,1,1,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,0,1,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,1,0,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,0}
+            {1,1,0,0,1,1,1,1,1,1,1,1,1,1},
+            {1,1,1,1,0,0,1,1,1,1,1,1,1,1},
+            {1,1,1,1,1,1,0,0,1,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,0,1,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,0,1,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,0,1,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,0,1,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,0}
     };
 
 
@@ -290,9 +302,19 @@ public class Main {
   }
 
   public static void main(String[] args) {
+<<<<<<< HEAD:src/Main.java
     init();
     String class_attributes = "play";
     ten(); //ten fold
+=======
+    //init();
+//    <<<<<<< HEAD
+//    read_header("car.data");
+//    String class_attributes = "values";
+//    =======
+//    String class_attributes = "play";
+//    ten(); //ten fold
+>>>>>>> 784e957732029087fe023a81ff94b6621870f3d4:src/console/Main.java
 
     /* FULLSET TRAINING
     tp = 0;

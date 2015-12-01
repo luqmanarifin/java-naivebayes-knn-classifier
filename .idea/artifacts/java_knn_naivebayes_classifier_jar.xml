@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="java-knn-naivebayes-classifier:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/java_knn_naivebayes_classifier_jar</output-path>
+    <root id="archive" name="java-knn-naivebayes-classifier.jar">
+      <element id="module-output" name="java-knn-naivebayes-classifier" />
+    </root>
+  </artifact>
+</component>
